@@ -34,7 +34,6 @@ import com.codename1.ui.*
 import com.codename1.ui.CommonProgressAnimations.CircleProgress
 import com.codename1.ui.CommonProgressAnimations.LoadingTextAnimation
 import com.codename1.ui.animations.CommonTransitions
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.geom.Dimension
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
@@ -48,7 +47,7 @@ import com.codename1.util.EasyThread
  *
  * @author Sergey Gerashenko.
  */
-class ProgressDemo(parentForm: Form?) : Demo() {
+class ProgressDemo(parentForm: Form) : Demo() {
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "DemoContainer")
         demoContainer.isScrollableY = true
@@ -60,26 +59,26 @@ class ProgressDemo(parentForm: Form?) : Demo() {
                         "you can either use the infiniteImage theme constant or the setAnimation method. The image " +
                         "is rotated automatically so don't use an animated image or anything like that as it would " +
                         "fail with the rotation logic."
-        ) { e: ActionEvent? -> showDemo("Infinite Progress", createInfiniteProgressDemo()) })
+        ) { showDemo("Infinite Progress", createInfiniteProgressDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("slider.png"),
                 "Slider",
                 "The slider component serves both as a",
                 "slider widget to allow users to select a value on a scale via touch/arrows and also to indicate progress. The slider " +
                         "defaults to percentage display but can represent any positive set of values."
-        ) { e: ActionEvent? -> showDemo("Slider", createSliderDemo()) })
+        ) { showDemo("Slider", createSliderDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("circle-animation.png"),
                 "Circle Animation",
                 "A CommonProgressAnimations which shows",
                 "radial coloring to show circular progress, like a Pac-Man"
-        ) { e: ActionEvent? -> showDemo("Circle Animation", createCircleAnimationDemo()) })
+        ) { showDemo("Circle Animation", createCircleAnimationDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("text-loading-animation.png"),
                 "Text Loading Animation",
                 "A CommonProgressAnimations item used ",
                 "to show the text is loading when we are fetching some text data from network/database"
-        ) { e: ActionEvent? -> showDemo("Text Loading Animation", createTextLoadAnimationDemo()) })
+        ) { showDemo("Text Loading Animation", createTextLoadAnimationDemo()) })
 
         return demoContainer
     }
@@ -99,7 +98,7 @@ class ProgressDemo(parentForm: Form?) : Demo() {
         val progress = Slider()
         val download = Button("Download", "DemoButton")
         val demoContainer = BorderLayout.south(progress).add(BorderLayout.NORTH, download)
-        download.addActionListener { e: ActionEvent? ->
+        download.addActionListener {
             val cr = ConnectionRequest("https://www.codenameone.com/img/blog/new_icon.png", false)
             SliderBridge.bindProgress(cr, progress)
             NetworkManager.getInstance().addToQueueAndWait(cr)

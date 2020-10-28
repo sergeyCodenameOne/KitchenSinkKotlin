@@ -25,7 +25,6 @@ package com.codename1.demos.kitchen
 import com.codename1.components.ScaleImageLabel
 import com.codename1.components.SpanLabel
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.geom.Dimension
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.layouts.GridLayout
@@ -38,7 +37,7 @@ import com.codename1.ui.util.Resources
  *
  * @author Sergey Gerashenko.
  */
-class LabelsDemo(parentForm: Form?) : Demo() {
+class LabelsDemo(parentForm: Form) : Demo() {
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "DemoContainer")
         demoContainer.isScrollableY = true
@@ -46,12 +45,12 @@ class LabelsDemo(parentForm: Form?) : Demo() {
                 "Label",
                 "Allows displaying a single line of text and",
                 "icon (both optional) with different alignment options. This class is a base class for several " +
-                        "components allowing them to declare alignment/icon appearance universally.") { e: ActionEvent? -> showDemo("Label", createLabelDemo()) })
+                        "components allowing them to declare alignment/icon appearance universally.") { showDemo("Label", createLabelDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("span-label.png"),
                 "Span Label",
                 "A multi line label component that can be",
-                "easily localized, this is simply based on a text area combined with a label.") { e: ActionEvent? -> showDemo("SpanLabel", createSpanLabelDemo()) })
+                "easily localized, this is simply based on a text area combined with a label.") { showDemo("SpanLabel", createSpanLabelDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("scale-image-label.png"),
                 "Scale Image Label",
@@ -60,7 +59,7 @@ class LabelsDemo(parentForm: Form?) : Demo() {
                     fill/fit. This is effectively equivalent to just setting the style image on a label but more convenient for some special circumstances
 
                     One major difference is that preferred size equals the image in this case. The default UIID for this component is label
-                    """.trimIndent()) { e: ActionEvent? -> showDemo("Scale image label", createScaleImageLabelDemo()) })
+                    """.trimIndent()) { showDemo("Scale image label", createScaleImageLabelDemo()) })
 
         return demoContainer
     }

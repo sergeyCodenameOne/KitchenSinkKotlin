@@ -45,7 +45,7 @@ abstract class Demo {
     var sourceCode: String? = null
         private set
 
-    protected fun init(id: String?, demoImage: Image?, parentForm: Form?, sourceCode: String?) {
+    protected fun init(id: String, demoImage: Image, parentForm: Form, sourceCode: String) {
         demoId = id
         this.demoImage = demoImage
         this.parentForm = parentForm
@@ -68,7 +68,7 @@ abstract class Demo {
 
         val lastForm = CN.getCurrentForm()
         val backCommand = Command.create("", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, UIManager.getInstance().getComponentStyle("DemoTitleCommand"))
-        ) { e: ActionEvent? -> lastForm.showBack() }
+        ) { lastForm.showBack() }
 
         toolbar.setBackCommand(backCommand)
         demoForm.add(BorderLayout.CENTER, content)
@@ -173,7 +173,7 @@ abstract class Demo {
             openedIcon = FontImage.createMaterial(FontImage.MATERIAL_KEYBOARD_ARROW_UP, buttonStyle)
             closedIcon = FontImage.createMaterial(FontImage.MATERIAL_KEYBOARD_ARROW_DOWN, buttonStyle)
             openClose = Button("", closedIcon, "AccordionButton")
-            openClose.addActionListener { e: ActionEvent? ->
+            openClose.addActionListener {
                 if (isOpen) {
                     close(true)
                 } else {

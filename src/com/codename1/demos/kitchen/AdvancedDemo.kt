@@ -25,7 +25,6 @@ package com.codename1.demos.kitchen
 import com.codename1.components.*
 import com.codename1.ui.*
 import com.codename1.ui.Calendar
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.geom.Dimension
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
@@ -39,7 +38,7 @@ import java.util.*
  *
  * @author Sergey Gerashenko.
  */
-class AdvancedDemo(parentForm: Form?) : Demo() {
+class AdvancedDemo(parentForm: Form) : Demo() {
     private val allNotes = HashMap<String, MutableList<String>>()
 
     override fun createContentPane(): Container? {
@@ -58,8 +57,8 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
                     
                     On Android this component might show a native progress indicator dialog. You can disable that functionality using the call.
                     """.trimIndent()
-                    ) { e: ActionEvent? ->
-                        val browser = BrowserComponent()
+                    ) {
+            val browser = BrowserComponent()
                         browser.url = "https://www.codenameone.com/"
                         Display.getInstance().setProperty("WebLoadingHidden", "true")
                         showDemo("Browser", browser) })
@@ -72,7 +71,7 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
                     
                     The user is given the option to save/reset/cancel the signature. On save, the signature Image property will be set with a full-size of the signature, and the icon on the button will show a thumbnail of the image.
                     """.trimIndent()
-        ) { e: ActionEvent? -> showDemo("Signature", createSignatureDemo()) })
+        ) { showDemo("Signature", createSignatureDemo()) })
 
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("advanced-calendar.png"),
@@ -83,14 +82,14 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
                     To localize stings for day names use the values Calendar. Day in the resource localization e.g. "Calendar.Sunday", "Calendar.Monday" etc …
                     
                     Note that we recommend using the picker class which is superior when running on the device for most use cases."""
-        ) { e: ActionEvent? -> showDemo("Calendar", createCalendarDemo()) })
+        ) { showDemo("Calendar", createCalendarDemo()) })
 
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("advanced-tree-file.png"),
                 "File Tree",
                 "Simple class showing off the file system as",
                 "a tree component."
-        ) { e: ActionEvent? ->
+        ) {
             val xmlTree = FileTree(FileTreeModel(true))
             val treeContainer = BorderLayout.center(xmlTree)
             val height = Display.getInstance().convertToPixels(4f)
@@ -104,12 +103,11 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
             showDemo("File Tree", treeContainer)
         })
 
-
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("advanced-image-viewer.png"),
                 "Image Viewer",
                 "Image Viewer allows zooming/panning an",
                 "image and potentially flicking between multiple images within a list of images"
-        ) { e: ActionEvent? ->
+        ) {
             val ip = InfiniteProgress().showInfiniteBlocking()
             CN.invokeAndBlock {
                 val demo: Container? = ImageViewerDemo().createContentPane()
@@ -123,6 +121,7 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
                 }
             }
         })
+
         return demoContainer
     }
 
@@ -144,7 +143,7 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
         creditCard.uiid = "CreditCard"
         val sig = SignatureComponent()
         val confirmAndPay = Button("Confirm & Pay", "SignatureConfirm")
-        confirmAndPay.addActionListener { e: ActionEvent? ->
+        confirmAndPay.addActionListener {
             if (sig.signatureImage == null) {
                 ToastBar.showInfoMessage("you need to sign")
             } else {
@@ -153,7 +152,7 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
         }
 
         val clear = Button("Clear", "SignatureClear")
-        clear.addActionListener { e: ActionEvent? -> sig.signatureImage = null }
+        clear.addActionListener { sig.signatureImage = null }
 
         val confirmContainer = Container(BorderLayout())
         confirmContainer.uiid = "ConfirmContainer"
@@ -170,14 +169,14 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
 
         val cld = Calendar()
         cld.selectedDaysUIID = "CalendarSelected"
-        println(cld.selectedDaysUIID)
-        cld.addActionListener { e: ActionEvent? ->
+        cld.addActionListener {
             notes.removeAll()
             var currentNotes = allNotes[cld.date.toString()]
             if (currentNotes == null) {
                 currentNotes = ArrayList()
                 allNotes[cld.date.toString()] = currentNotes
             }
+
             val notesCount = currentNotes.size
             if (notesCount == 0) {
                 notes.add(createNote("Empty", currentNotes, notes))
@@ -189,12 +188,13 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
         }
 
         val addNote = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD, "CalendarAddNew")
-        addNote.addActionListener { e: ActionEvent? ->
+        addNote.addActionListener {
             var currentNotes = allNotes[cld.date.toString()]
             if (currentNotes == null) {
                 currentNotes = ArrayList<String>()
                 allNotes[cld.date.toString()] = currentNotes as ArrayList<String>
             }
+
             val currNote = TextComponent().labelAndHint("Note")
             val ok = Command("Ok")
             val cancel = Command("Cancel")
@@ -216,7 +216,7 @@ class AdvancedDemo(parentForm: Form?) : Demo() {
         val deleteButton = Button("", FontImage.createMaterial(FontImage.MATERIAL_DELETE, UIManager.getInstance().getComponentStyle("DeleteButton")), "DeleteButton")
         val noteTextLabel = SpanLabel(noteText, "Note")
         val note = SwipeableContainer(deleteButton, noteTextLabel)
-        deleteButton.addActionListener { e: ActionEvent? ->
+        deleteButton.addActionListener {
             notes.removeComponent(note)
             notes.revalidate()
             currNotes?.remove(noteText)

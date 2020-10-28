@@ -44,13 +44,13 @@ import java.io.IOException
  *
  * @author Sergey Gerashenko.
  */
-class MediaDemo(parentForm: Form?) : Demo() {
+class MediaDemo(parentForm: Form) : Demo() {
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "VideoContainer")
         val iconStyle = UIManager.getInstance().getComponentStyle("MediaIcon")
 
         val downloadButton = createVideoComponent("Hello (Download)", "Download to FileSystem", FontImage.createMaterial(FontImage.MATERIAL_ARROW_CIRCLE_DOWN, iconStyle)
-        ) { e: ActionEvent? ->
+        ) {
             if (!CN.existsInFileSystem(DOWNLOADED_VIDEO)) {
                 downloadFile("https://www.codenameone.com/files/hello-codenameone.mp4")
             } else {
@@ -59,7 +59,7 @@ class MediaDemo(parentForm: Form?) : Demo() {
         }
 
         val playOfflineButton = createVideoComponent("Hello (Offline)", "Play from FileSystem", FontImage.createMaterial(FontImage.MATERIAL_PLAY_CIRCLE_FILLED, iconStyle)
-        ) { e: ActionEvent? ->
+        ) {
             if (CN.existsInFileSystem(DOWNLOADED_VIDEO)) {
                 playVideoOnNewForm(DOWNLOADED_VIDEO, demoContainer.componentForm)
             } else {
@@ -68,10 +68,10 @@ class MediaDemo(parentForm: Form?) : Demo() {
         }
 
         val playOnlineButton = createVideoComponent("Hello (Online)", "Play thru http", FontImage.createMaterial(FontImage.MATERIAL_PLAY_CIRCLE_FILLED, iconStyle)
-        ) { e: ActionEvent? -> playVideoOnNewForm("https://www.codenameone.com/files/hello-codenameone.mp4", demoContainer.componentForm) }
+        ) { playVideoOnNewForm("https://www.codenameone.com/files/hello-codenameone.mp4", demoContainer.componentForm) }
 
         val captureVideoButton = createVideoComponent("Capture", "Record video and save to FileSystem", FontImage.createMaterial(FontImage.MATERIAL_VIDEOCAM, iconStyle)
-        ) { e: ActionEvent? ->
+        ) {
             val capturedVideo = Capture.captureVideo()
             if (capturedVideo != null) {
                 try {
@@ -83,7 +83,7 @@ class MediaDemo(parentForm: Form?) : Demo() {
         }
 
         val playCaptured = createVideoComponent("Play", "Play captured video", FontImage.createMaterial(FontImage.MATERIAL_PLAY_CIRCLE_FILLED, iconStyle)
-        ) { e: ActionEvent? ->
+        ) {
             if (CN.existsInFileSystem(CAPTURED_VIDEO)) {
                 playVideoOnNewForm(CAPTURED_VIDEO, demoContainer.componentForm)
             } else {
@@ -105,7 +105,7 @@ class MediaDemo(parentForm: Form?) : Demo() {
         videoForm.add(CN.CENTER, InfiniteProgress())
 
         val backCommand = Command.create("", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, UIManager.getInstance().getComponentStyle("DemoTitleCommand"))
-        ) { e: ActionEvent? -> parentForm.showBack() }
+        ) { parentForm.showBack() }
 
         toolbar.setBackCommand(backCommand)
         videoForm.show()
@@ -139,7 +139,6 @@ class MediaDemo(parentForm: Form?) : Demo() {
         cr.isDuplicateSupported = true
         cr.url = url
         cr.destinationFile = DOWNLOADED_VIDEO
-        cr.addResponseListener { e: NetworkEvent? -> }
         ToastBar.showConnectionProgress("Downloading", cr, null, null)
         NetworkManager.getInstance().addToQueue(cr)
     }

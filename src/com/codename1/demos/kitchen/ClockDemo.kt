@@ -23,7 +23,6 @@
 package com.codename1.demos.kitchen
 
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.geom.GeneralPath
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.plaf.UIManager
@@ -39,7 +38,7 @@ import kotlin.math.sin
  *
  * @author Sergey Gerashenko.
  */
-class ClockDemo(parentForm: Form?) : Demo() {
+class ClockDemo(parentForm: Form) : Demo() {
     // at 1-minute intervals
     private var shortTickLen = 0
 
@@ -62,10 +61,10 @@ class ClockDemo(parentForm: Form?) : Demo() {
         // Toolbar add source and back buttons.
         val commandStyle = UIManager.getInstance().getComponentStyle("DemoTitleCommand")
         val backCommand = Command.create("", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, commandStyle)
-        ) { e: ActionEvent? -> parentForm!!.showBack() }
+        ) { parentForm!!.showBack() }
 
         val sourceCommand = Command.create("", FontImage.create("{ }", commandStyle)
-        ) { e: ActionEvent? -> CN.execute(sourceCode) }
+        ) { CN.execute(sourceCode) }
 
         toolbar.addCommandToRightBar(sourceCommand)
         toolbar.setBackCommand(backCommand)
@@ -86,8 +85,7 @@ class ClockDemo(parentForm: Form?) : Demo() {
     }
 
     private inner class AnalogClock : Component() {
-        private val lastRenderedTime: Long = 0
-        private val currentTime = Date()
+        private var lastRenderedTime: Long = 0
         private val padding = CN.convertToPixels(2f)
 
         fun start() {
@@ -100,7 +98,7 @@ class ClockDemo(parentForm: Form?) : Demo() {
 
         override fun animate(): Boolean {
             if (System.currentTimeMillis() / 1000 != lastRenderedTime / 1000) {
-                currentTime.time = System.currentTimeMillis()
+                lastRenderedTime = System.currentTimeMillis()
                 return true
             }
             return false

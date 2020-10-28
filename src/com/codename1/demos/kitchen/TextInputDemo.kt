@@ -28,7 +28,6 @@ import com.codename1.components.ToastBar
 import com.codename1.io.CSVParser
 import com.codename1.io.Log
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.layouts.GridLayout
@@ -50,7 +49,7 @@ import java.io.InputStream
  *
  * @author Sergey Gerashenko.
  */
-class TextInputDemo(parentForm: Form?) : Demo() {
+class TextInputDemo(parentForm: Form) : Demo() {
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "DemoContainer")
         demoContainer.isScrollableY = true
@@ -60,20 +59,20 @@ class TextInputDemo(parentForm: Form?) : Demo() {
                 "A specialized version of TextArea with",
                 "some minor deviations from the original specifically: Blinking cursor is rendered on TextField only. com.codename1.ui.events.DataChangeList is only available in TextField." +
                         "This is crucial for character by character input event tracking setDoneListener(com. codename1.ui. events.ActionLister) is only available in Text Field Different UIID's (TextField vs. TextArea)."
-        ) { e: ActionEvent? -> showDemo("Text Field", createTextFieldDemo()) })
+        ) { showDemo("Text Field", createTextFieldDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("text-area.png"),
                 "Text Area",
                 "An optionally multi-line editable region that",
                 "can display text and allow a user to edit it. By default the text area will grow based on its content. TextArea is useful both for text input and for displaying multi-line data, it is used internally by components such as SpanLabel & SpanButton." +
                         "TextArea & TextField are very similar, we discuss the main differences between the two here. In fact they are so similar that our sample code below was written for TextField but should be interchangeable with TextArea."
-        ) { e: ActionEvent? -> showDemo("Text Area", createTextAreaDemo()) })
+        ) { showDemo("Text Area", createTextAreaDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("clearable-text-field.png"),
                 "Clearable Text Field",
                 "Wraps a text field so it will have an X to",
                 "clear its content on the right hand side."
-        ) { e: ActionEvent? -> showDemo("Clearable Text Field", createClearableTextFieldDemo()) })
+        ) { showDemo("Clearable Text Field", createClearableTextFieldDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("auto-complete-text-field.png"),
                 "Auto Complete Text Field",
@@ -81,7 +80,7 @@ class TextInputDemo(parentForm: Form?) : Demo() {
                 "suggestions that show up in a drop down menu while the user types in text. This class uses the \"TextField\" " +
                         "UIID by default as well as \"AutoCompletePopup\" & \"AutoCompleteList\" for the popup list details. The " +
                         "sample below shows the more trivial use case for this widget."
-        ) { e: ActionEvent? -> showDemo("Browser", createAutoCompleteDemo()) })
+        ) { showDemo("Browser", createAutoCompleteDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("floating-hint.png"),
                 "Text Component",
@@ -89,7 +88,7 @@ class TextInputDemo(parentForm: Form?) : Demo() {
                 "and label into a single component. This allows the UI to adapt for IOS/Android behavior differences and support features like floating hint when necessary." +
                         "It also includes platform specific error handling logic. It is highly recommended to use text component in the context of a TextModeLayout this allows " +
                         "the layout to implicitly adapt to the on-top mode and use a box layout Y mode for iOS and other platforms. This class supports several theme constants."
-        ) { e: ActionEvent? -> showDemo("Text Component", createTextComponentContainer()) })
+        ) { showDemo("Text Component", createTextComponentContainer()) })
 
         return demoContainer
     }
@@ -121,29 +120,29 @@ class TextInputDemo(parentForm: Form?) : Demo() {
         val num4 = TextField("", "1234", 4, TextArea.NUMERIC)
         num4.uiid = "DemoTextArea"
 
-        num1.addDataChangedListener { i: Int, ii: Int ->
+        num1.addDataChangedListener { _: Int, _: Int ->
             if (num1.text.length == 4) {
                 num1.stopEditing { num2.startEditing() }
             }
         }
-        num2.addDataChangedListener { i: Int, ii: Int ->
+        num2.addDataChangedListener { _: Int, _: Int ->
             if (num2.text.length == 4) {
                 num2.stopEditing { num3.startEditing() }
             }
         }
-        num3.addDataChangedListener { i: Int, ii: Int ->
+        num3.addDataChangedListener { _: Int, _: Int ->
             if (num3.text.length == 4) {
                 num3.stopEditing { num4.startEditing() }
             }
         }
-        num4.addDataChangedListener { i: Int, ii: Int ->
+        num4.addDataChangedListener { _: Int, _: Int ->
             if (num4.text.length == 4) {
                 num4.stopEditing()
             }
         }
 
         val submit = Button("Submit", "TextFieldsDemoButton")
-        submit.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Your personal data was saved successfully") }
+        submit.addActionListener { ToastBar.showInfoMessage("Your personal data was saved successfully") }
         tl.isGrowHorizontally = true
         textFields.layout = tl
         textFields.add(Label("First Name", "DemoLabel")).add(firstName).add(Label("Surname", "DemoLabel")).add(surname).add(Label("E-Mail", "DemoLabel")).add(email).add(Label("URL", "DemoLabel")).add(url).add(Label("Phone", "DemoLabel")).add(phone).add(Label("Credit Card", "DemoLabel")).add(GridLayout.encloseIn(4, num1, num2, num3, num4))
@@ -172,7 +171,7 @@ class TextInputDemo(parentForm: Form?) : Demo() {
         message.uiid = "DemoTextArea"
 
         val contactUsButton = Button("Contact Us", "TextFieldsDemoButton")
-        contactUsButton.addActionListener { e: ActionEvent? ->
+        contactUsButton.addActionListener {
             name.text = ""
             email.text = ""
             message.text = ""
@@ -204,7 +203,7 @@ class TextInputDemo(parentForm: Form?) : Demo() {
                 clearablePassword)
 
         val loginButton = Button("Login", "TextFieldsDemoButton")
-        loginButton.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Username or Password are incorrect") }
+        loginButton.addActionListener { ToastBar.showInfoMessage("Username or Password are incorrect") }
 
         val demoContainer = BorderLayout.center(textFieldsContainer)
         demoContainer.add(BorderLayout.SOUTH, loginButton)
@@ -223,7 +222,7 @@ class TextInputDemo(parentForm: Form?) : Demo() {
                 commonWords.add(s[0])
             }
         }catch(err: IOException) {
-            Log.e(err);
+            Log.e(err)
         }
 
         val options = DefaultListModel<String?>()
@@ -255,7 +254,7 @@ class TextInputDemo(parentForm: Form?) : Demo() {
         return BoxLayout.encloseY(demoContainer)
     }
 
-    fun searchWords(text: String?, wordsList: List<String>): List<String> {
+    fun searchWords(text: String?, wordsList: List<String>): MutableList<String> {
         val matchedWords: MutableList<String> = ArrayList()
         var count = 0
         for (word in wordsList) {
@@ -285,7 +284,7 @@ class TextInputDemo(parentForm: Form?) : Demo() {
         val saveValidation = Validator()
         saveValidation.addConstraint(email, RegexConstraint.validEmail())
         saveValidation.addSubmitButtons(saveButton)
-        saveButton.addActionListener { ee: ActionEvent? ->
+        saveButton.addActionListener {
             // Show saving status
             val savingStatus = ToastBar.getInstance().createStatus()
             savingStatus.message = "Saving"

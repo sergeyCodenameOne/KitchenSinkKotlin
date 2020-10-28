@@ -24,7 +24,6 @@ package com.codename1.demos.kitchen
 
 import com.codename1.components.*
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.layouts.FlowLayout
@@ -39,7 +38,7 @@ import com.codename1.ui.util.Resources
  *
  * @author Sergey Gerashenko.
  */
-class TogglesDemo(parentForm: Form?) : Demo() {
+class TogglesDemo(parentForm: Form) : Demo() {
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "DemoContainer")
         demoContainer.isScrollableY = true
@@ -48,13 +47,13 @@ class TogglesDemo(parentForm: Form?) : Demo() {
                 "Checkbox",
                 "Checkbox is a button that can be selected",
                 "or deselected and display its state to the user. Check out RadioButton for a more exclusive selection " +
-                        "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.") { e: ActionEvent? -> showDemo("Checkbox", createCheckboxDemo()) })
+                        "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.") { showDemo("Checkbox", createCheckboxDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("radio-button.png"),
                 "Radio Button",
                 "Checkbox is a button that can be selected",
                 "or deselected and display its state to the user. Check out RadioButton for a more exclusive selection " +
-                        "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.") { e: ActionEvent? -> showDemo("Radio Button", createRadioButtonDemo()) })
+                        "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.") { showDemo("Radio Button", createRadioButtonDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("switch.png"),
                 "Switch",
@@ -62,15 +61,15 @@ class TogglesDemo(parentForm: Form?) : Demo() {
                 "The on/off switch is a checkbox of sort (although it derives container) that represents its state as a switch " +
                         "when using the android native theme this implementation follows the Material Design Switch " +
                         "guidelines: https://material.io/guidelines/components/ selection-controls.html#selection-controls- radio-button"
-                ) { e: ActionEvent? -> showDemo("Switch", createSwitchDemo()) })
+                ) { showDemo("Switch", createSwitchDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("check-box-list.png"),
                 "Check Box List",
-                "A list of Check Boxes") { e: ActionEvent? -> showDemo("CheckBox List", createCheckBoxListDemo()) })
+                "A list of Check Boxes") { showDemo("CheckBox List", createCheckBoxListDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("radio-button-list.png"),
                 "RadioButton List (BoxLayout Y)",
-                "A list of Radio Buttons.") { e: ActionEvent? -> showDemo("RadioButton List (BoxLayout Y)", createRadioButtonListDemo()) })
+                "A list of Radio Buttons.") { showDemo("RadioButton List (BoxLayout Y)", createRadioButtonListDemo()) })
 
         return demoContainer
     }
@@ -98,7 +97,7 @@ class TogglesDemo(parentForm: Form?) : Demo() {
 
         val checkBoxContainer = BoxLayout.encloseY(cb1, cb2, cb3, cb4, cb5, cb6, cb7)
         val completeOrder = Button("Complete Order", "DemoButton")
-        completeOrder.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Your order is on the way") }
+        completeOrder.addActionListener { ToastBar.showInfoMessage("Your order is on the way") }
         val completeOrderContainer = FlowLayout.encloseCenter(completeOrder)
         completeOrderContainer.uiid = "CompleteOrderContainer"
         val demoContainer = BorderLayout.center(checkBoxContainer).add(BorderLayout.SOUTH, completeOrderContainer).add(BorderLayout.NORTH, Label("Burger Ingredients", "BurgerIngredients"))
@@ -127,12 +126,12 @@ class TogglesDemo(parentForm: Form?) : Demo() {
         val radioButtonsContainer = BoxLayout.encloseY(Label("select build", "SelectBuild"), rb1, rb2, rb3, rb4, rb5, rb6)
         val demoContainer = BorderLayout.center(radioButtonsContainer)
         val applyButton = Button("Send Build", "DemoButton")
-        applyButton.addActionListener { e: ActionEvent? ->
+        applyButton.addActionListener {
             val selectedButton = bg.selected
             ToastBar.showInfoMessage(selectedButton.text + " build was sent")
         }
 
-        bg.addActionListener { e: ActionEvent? ->
+        bg.addActionListener {
             applyButton.text = "Send " + bg.selected.text + " Build"
             demoContainer.revalidate()
         }
@@ -152,7 +151,7 @@ class TogglesDemo(parentForm: Form?) : Demo() {
         }
         val switchContainer = BorderLayout.centerAbsolute(s)
 
-        s.addChangeListener { e: ActionEvent? ->
+        s.addChangeListener {
             if (s.isOn) {
                 switchContainer.uiid = "BrightContainer"
             } else {
@@ -172,7 +171,7 @@ class TogglesDemo(parentForm: Form?) : Demo() {
         list.setShouldCalcPreferredSize(true)
 
         val add = Button("Add New", "AddNewButton")
-        add.addActionListener { e: ActionEvent? ->
+        add.addActionListener {
             val newItem = TextComponent().label("New Item: ")
             val ok = Command("Ok")
             val cancel = Command("Cancel")
@@ -187,7 +186,7 @@ class TogglesDemo(parentForm: Form?) : Demo() {
         share.icon = icon
         share.text = "Share Groceries"
         share.uiid = "DemoButton"
-        share.addActionListener { e: ActionEvent? ->
+        share.addActionListener {
             val sb = StringBuilder()
             val selected = model.selectedIndices
             for (i in selected) {
@@ -220,7 +219,7 @@ class TogglesDemo(parentForm: Form?) : Demo() {
         val model: DefaultListModel<*> = DefaultListModel<Any?>("Jon Snow", "Robb Stark", "Ned Stark", "Edmure Tully")
         val list = RadioButtonList(model)
         list.layout = BoxLayout.y()
-        answer.addActionListener { e: ActionEvent? ->
+        answer.addActionListener {
             if (model.selectedIndex == 1) {
                 ToastBar.showInfoMessage("Correct!")
             } else {

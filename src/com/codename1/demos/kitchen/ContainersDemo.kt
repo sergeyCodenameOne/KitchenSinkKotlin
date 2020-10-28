@@ -27,7 +27,6 @@ import com.codename1.components.SplitPane.Settings
 import com.codename1.demos.kitchen.charts.DemoCharts
 import com.codename1.io.rest.Rest
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.geom.Dimension
 import com.codename1.ui.layouts.*
 import com.codename1.ui.plaf.Style
@@ -44,9 +43,9 @@ import kotlin.collections.ArrayList
  *
  * @author Sergey Gerashenko.
  */
-class ContainersDemo(parentForm: Form?) : Demo() {
-    private var colorLabelList: ArrayList<Component>? = null
-    private var colorsContainer: Container? = null
+class ContainersDemo(parentForm: Form) : Demo() {
+    private var colorLabelList: MutableList<Component>? = null
+    private var colorsContainer: Container = Container(BoxLayout(BoxLayout.Y_AXIS))
 
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "DemoContainer")
@@ -61,7 +60,7 @@ class ContainersDemo(parentForm: Form?) : Demo() {
                     "Note that the Accordion like many composite components in Codename One is scrollable by default which " +
                     "means you should use it within a non-scrollable hierarchy. If you wish to add it into a scrollable " +
                     "Container you should disable it's default scrollability using setScrollable(false)."
-                    ) { e: ActionEvent? -> showDemo("Accordion", createAccordionDemo()) })
+                    ) { showDemo("Accordion", createAccordionDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("infinite-container.png"),
                 "Infinite Container",
@@ -69,7 +68,7 @@ class ContainersDemo(parentForm: Form?) : Demo() {
                     "indefinitely (or at least until we run out of data). This class uses the InfiniteScrollAdapter to bring more data " +
                          "and the pull to refresh feature to refresh current displayed data." +
                          "The sample code shows the usage of the nestoria API to fill out an infinitely scrolling list."
-                    ) { e: ActionEvent? -> showDemo("Infinite Container", createInfiniteContainerDemo()) })
+                    ) { showDemo("Infinite Container", createInfiniteContainerDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("split-pane.png"),
                 "Split Pane",
@@ -78,7 +77,7 @@ class ContainersDemo(parentForm: Form?) : Demo() {
                             "then the child components will be laid out horizontally (side by side with a vertical bar as a divider). If " +
                             "the orientation is VERTICAL_SPLIT, then the components are laid out vertically. One above the other." +
                             "The bar divider bar includes to collapse and expand the divider also."
-                            ) { e: ActionEvent? -> showDemo("Split Pane", createSplitPaneDemo()) })
+                            ) { showDemo("Split Pane", createSplitPaneDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("tabs.png"),
                 "Tabs",
@@ -89,7 +88,7 @@ class ContainersDemo(parentForm: Form?) : Demo() {
                         "equal to the tab count minus 1. The Tabs uses a SingleSelectionModel to represent the set of tab indices and the currently " +
                         "selected index. If the tab count is greater that 0, then there will always be a selected index, which by default will be " +
                         "initialized to the first tab. If the tab count is 0, then the selected index will be -1. A simple Tabs looks like a bit " +
-                        "like this.") { e: ActionEvent? -> showDemo("Tabs", createTabsDemo()) })
+                        "like this.") { showDemo("Tabs", createTabsDemo()) })
 
         return demoContainer
     }
@@ -188,97 +187,97 @@ class ContainersDemo(parentForm: Form?) : Demo() {
     private fun createSplitPaneDemo(): Container {
         val flow = Button("Flow Layout")
         flow.uiid = "DemoButton"
-        flow.addActionListener { e: ActionEvent? ->
+        flow.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.layout = FlowLayout()
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.layout = FlowLayout()
+            colorsContainer.animateLayout(1000)
         }
 
         val flowCenter = Button("Flow Center Layout")
         flowCenter.uiid = "DemoButton"
-        flowCenter.addActionListener { e: ActionEvent? ->
+        flowCenter.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.layout = FlowLayout(Component.CENTER)
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.layout = FlowLayout(Component.CENTER)
+            colorsContainer.animateLayout(1000)
         }
 
         val border = Button("border Layout")
         border.uiid = "DemoButton"
-        border.addActionListener { e: ActionEvent? ->
+        border.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.removeAll()
-            colorsContainer!!.layout = BorderLayout()
-            colorsContainer!!.add(BorderLayout.CENTER, colorLabelList!![0]).add(BorderLayout.WEST, colorLabelList!![1]).add(BorderLayout.EAST, colorLabelList!![2]).add(BorderLayout.NORTH, colorLabelList!![3]).add(BorderLayout.SOUTH, colorLabelList!![4])
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.removeAll()
+            colorsContainer.layout = BorderLayout()
+            colorsContainer.add(BorderLayout.CENTER, colorLabelList!![0]).add(BorderLayout.WEST, colorLabelList!![1]).add(BorderLayout.EAST, colorLabelList!![2]).add(BorderLayout.NORTH, colorLabelList!![3]).add(BorderLayout.SOUTH, colorLabelList!![4])
+            colorsContainer.animateLayout(1000)
         }
 
         val absoluteBorder = Button("Absolute Border Layout")
         absoluteBorder.uiid = "DemoButton"
-        absoluteBorder.addActionListener { e: ActionEvent? ->
+        absoluteBorder.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.removeAll()
-            colorsContainer!!.layout = BorderLayout(CN.CENTER_BEHAVIOR_CENTER)
-            colorsContainer!!.add(BorderLayout.CENTER, colorLabelList!![0]).add(BorderLayout.WEST, colorLabelList!![1]).add(BorderLayout.EAST, colorLabelList!![2]).add(BorderLayout.NORTH, colorLabelList!![3]).add(BorderLayout.SOUTH, colorLabelList!![4])
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.removeAll()
+            colorsContainer.layout = BorderLayout(CN.CENTER_BEHAVIOR_CENTER)
+            colorsContainer.add(BorderLayout.CENTER, colorLabelList!![0]).add(BorderLayout.WEST, colorLabelList!![1]).add(BorderLayout.EAST, colorLabelList!![2]).add(BorderLayout.NORTH, colorLabelList!![3]).add(BorderLayout.SOUTH, colorLabelList!![4])
+            colorsContainer.animateLayout(1000)
         }
 
         val boxX = Button("Box X Layout")
         boxX.uiid = "DemoButton"
-        boxX.addActionListener { e: ActionEvent? ->
+        boxX.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.layout = BoxLayout(BoxLayout.X_AXIS)
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.layout = BoxLayout(BoxLayout.X_AXIS)
+            colorsContainer.animateLayout(1000)
         }
 
         val boxY = Button("Box Y Layout")
         boxY.uiid = "DemoButton"
-        boxY.addActionListener { e: ActionEvent? ->
+        boxY.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.layout = BoxLayout(BoxLayout.Y_AXIS)
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.layout = BoxLayout(BoxLayout.Y_AXIS)
+            colorsContainer.animateLayout(1000)
         }
 
         val grid = Button("Grid Layout")
         grid.uiid = "DemoButton"
-        grid.addActionListener { e: ActionEvent? ->
+        grid.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.layout = GridLayout(1, 1)
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.layout = GridLayout(1, 1)
+            colorsContainer.animateLayout(1000)
         }
 
         val simpleTable = Button("Table Layout(simple)")
         simpleTable.uiid = "DemoButton"
-        simpleTable.addActionListener { e: ActionEvent? ->
+        simpleTable.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.layout = TableLayout(3, 2)
-            colorsContainer!!.removeAll()
-            colorsContainer!!.addAll(colorLabelList!![0],
+            colorsContainer.layout = TableLayout(3, 2)
+            colorsContainer.removeAll()
+            colorsContainer.addAll(colorLabelList!![0],
                     colorLabelList!![1],
                     colorLabelList!![2],
                     colorLabelList!![3],
                     colorLabelList!![4])
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.animateLayout(1000)
         }
 
         val complexTable = Button("Table Layout(complex)")
         complexTable.uiid = "DemoButton"
-        complexTable.addActionListener { e: ActionEvent? ->
+        complexTable.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer!!.removeAll()
+            colorsContainer.removeAll()
             buildComplexTableUI(colorsContainer)
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.animateLayout(1000)
         }
 
         val layered = Button("Layered Layout")
         layered.uiid = "DemoButton"
-        layered.addActionListener { e: ActionEvent? ->
+        layered.addActionListener {
             resetMargin(colorsContainer)
-            colorsContainer?.layout = LayeredLayout()
+            colorsContainer.layout = LayeredLayout()
 
             // Increase the margin by 3 mm for every Component in the container for better
             //   visual effect of the LayeredLayout.
             setMarginForLayeredLayout(colorsContainer)
-            colorsContainer!!.animateLayout(1000)
+            colorsContainer.animateLayout(1000)
         }
 
 
@@ -305,39 +304,36 @@ class ContainersDemo(parentForm: Form?) : Demo() {
 
         // Make an anonymous claas that override calcPreferredSize to fit exactly a half of the screen.
         // Alternatively you could use TableLayout instead of BorderLayout where i could explicitly define the height in percentages.
-        //   or GridLayout that would divide the ContentPane by 2 for every Component within it. 
-        colorsContainer = Container(BoxLayout(BoxLayout.Y_AXIS))
-        colorsContainer?.addAll(colorLabelList?.get(0),
+        //   or GridLayout that would divide the ContentPane by 2 for every Component within it.
+        colorsContainer.addAll(colorLabelList?.get(0),
                                 colorLabelList?.get(1),
                                 colorLabelList?.get(2),
                                 colorLabelList?.get(3),
                                 colorLabelList?.get(4))
 
-        colorsContainer?.setShouldCalcPreferredSize(true)
+        colorsContainer.setShouldCalcPreferredSize(true)
         return SplitPane(Settings().orientation(SplitPane.VERTICAL_SPLIT), colorsContainer, buttonList)
     }
 
-    private data class Item(val title: String, val details: String, val url: String, val thumb: String)
-
     // Reset the margin for all the components inside the given container.
-    private fun resetMargin(colorsContainer: Container?) {
+    private fun resetMargin(colorsContainer: Container) {
         val margin = 0.5f
-        for (cmp in colorsContainer!!) {
+        for (cmp in colorsContainer) {
             cmp.allStyles.setMargin(margin, margin, margin, margin)
         }
     }
 
-    private fun setMarginForLayeredLayout(colorsContainer: Container?) {
+    private fun setMarginForLayeredLayout(colorsContainer: Container) {
         var margin = 0f
-        for (cmp in colorsContainer!!) {
+        for (cmp in colorsContainer) {
             cmp.allStyles.setMargin(margin, margin, margin, margin)
             margin += 3f
         }
     }
 
-    private fun buildComplexTableUI(colorsContainer: Container?) {
+    private fun buildComplexTableUI(colorsContainer: Container) {
         val tl = TableLayout(2, 3)
-        colorsContainer!!.layout = tl
+        colorsContainer.layout = tl
         colorsContainer.add(tl.createConstraint().widthPercentage(20),
                 colorLabelList!![0])
         colorsContainer.add(tl.createConstraint().horizontalSpan(2).heightPercentage(80).verticalAlign(Component.CENTER).horizontalAlign(Component.CENTER),
@@ -352,4 +348,6 @@ class ContainersDemo(parentForm: Form?) : Demo() {
     init {
         init("Containers", Resources.getGlobalResources().getImage("containers-demo.png"), parentForm, "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ContainersDemo.java")
     }
+
+    private data class Item(val title: String, val details: String, val url: String, val thumb: String)
 }

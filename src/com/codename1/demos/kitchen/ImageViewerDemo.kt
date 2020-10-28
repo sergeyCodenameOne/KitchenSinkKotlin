@@ -66,12 +66,13 @@ class ImageViewerDemo {
         val model = ImageList(itemList, 0)
         val imageViewer = ImageViewer(model.getItemAt(0))
         imageViewer.imageList = model
-        val details = SpanLabel(firstItem!!.details, "WebServicesDetails")
+
+        val details = SpanLabel(firstItem.details, "WebServicesDetails")
         imageViewerContainer.add(BorderLayout.SOUTH, details)
         imageViewerContainer.add(BorderLayout.CENTER, imageViewer)
 
         // Refresh the details when switching between the images.
-        model.addSelectionListener { oldIndex: Int, newIndex: Int ->
+        model.addSelectionListener { _: Int, newIndex: Int ->
             val currDetails = model.getDetails(newIndex)
             details.text = currDetails
             CN.getCurrentForm().revalidate()

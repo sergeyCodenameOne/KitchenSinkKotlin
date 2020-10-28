@@ -26,7 +26,6 @@ import com.codename1.components.*
 import com.codename1.io.FileSystemStorage
 import com.codename1.io.Log
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.plaf.Style
@@ -42,7 +41,7 @@ import com.codename1.ui.util.Resources
  *
  * @author Sergey Gerashenko.
  */
-class ButtonsDemo(parentForm: Form?) : Demo() {
+class ButtonsDemo(parentForm: Form) : Demo() {
     private val badge: FloatingActionButton = FloatingActionButton.createBadge("0")
 
     override fun createContentPane(): Container? {
@@ -54,13 +53,13 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
                 "Button is the base class for several UI",
                 "widgets allowing clickability. It has 3 States: rollover, pressed and the default state. Button can also " +
                         "have an Action Listener that react when the button is clicked or handle actions via a Command.Button UIID by " +
-                        "default.") { e: ActionEvent? -> showDemo("Buttons", createButtonsDemo()) })
+                        "default.") { showDemo("Buttons", createButtonsDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("span-button.png"),
                 "Span Buttons",
                 "A complex button similar to MultiButton",
                 "that breaks lines automatically and looks like a regular button(more or less). Unlike the multi button the " +
-                        "span buttons has the UIID style of a button.") { e: ActionEvent? -> showDemo("Span Buttons", createSpanButtonsDemo()) })
+                        "span buttons has the UIID style of a button.") { showDemo("Span Buttons", createSpanButtonsDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("multi-buttons.png"),
                 "Multi Buttons",
@@ -69,7 +68,7 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
                     allows multiple rows/and an icon to be added every row/icon can have its own UIID.
                     
                     Internally the multi-button is a container with a lead component. Up to 4 rows are supported.
-                    """.trimIndent()) { e: ActionEvent? -> showDemo("Multi Buttons", createMultiButtonsDemo()) })
+                    """.trimIndent()) { showDemo("Multi Buttons", createMultiButtonsDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("scale-image-label.png"),
                 "Scale Image Button",
@@ -78,13 +77,13 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
                     fill/fit. This is effectively equivalent to just setting the style image on a button but more convenient for some special circumstances.
                     
                     One major difference is that preferred size equals the image in this case.
-                    """.trimIndent()) { e: ActionEvent? -> showDemo("Scale Image Button", createScaleImageButton()) })
+                    """.trimIndent()) { showDemo("Scale Image Button", createScaleImageButton()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("floating-action-button.png"),
                 "Floating Action Button",
                 "Floating action buttons are a material design",
                 "element used to promote a special action in a form. They are represented as a floating circle with a " +
-                        "flat icon floating above the UI typically in the bottom right area.") { e: ActionEvent? -> showDemo("Floating Action Button", createFloatingActionButtonDemo()) })
+                        "flat icon floating above the UI typically in the bottom right area.") { showDemo("Floating Action Button", createFloatingActionButtonDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("share-button.png"),
                 "Share Button",
@@ -93,20 +92,20 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
                     or an image either thru the defined sharing services or thru native OS sharing support. On Android & iOS the native sharing API is invoked for this class.
                     
                     The code below demonstrates image sharing, notice that an image must be stored using the FileSystemStorage API and shouldn't use a different API like Storage.
-                    """.trimIndent()) { e: ActionEvent? -> showDemo("Share Button", createShareButtonDemo()) })
+                    """.trimIndent()) { showDemo("Share Button", createShareButtonDemo()) })
 
         return demoContainer
     }
 
     private fun createButtonsDemo(): Container {
         val firstButton = Button("Button", "DemoButton")
-        firstButton.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("First Button was pressed") }
+        firstButton.addActionListener { ToastBar.showInfoMessage("First Button was pressed") }
 
         val secondButton = Button("", FontImage.MATERIAL_INFO, "DemoButton")
-        secondButton.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Second Button was pressed") }
+        secondButton.addActionListener { ToastBar.showInfoMessage("Second Button was pressed") }
 
         val thirdButton = Button("Button", FontImage.MATERIAL_INFO, "DemoButton")
-        thirdButton.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Third Button was pressed") }
+        thirdButton.addActionListener { ToastBar.showInfoMessage("Third Button was pressed") }
 
         val demoContainer = BoxLayout.encloseY(Label("Button with text:", "DemoLabel"),
                 firstButton,
@@ -124,7 +123,7 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
                 "a regular button(more or less). Unlike the multi button the " +
                 "span buttons has the UIID style of a button.", "WhiteText")
         button.uiid = "DemoButton"
-        button.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Button was pressed") }
+        button.addActionListener { ToastBar.showInfoMessage("Button was pressed") }
 
         val spanLabelContainer = BoxLayout.encloseY(Label("SpanButton:", "DemoLabel"), button)
         spanLabelContainer.uiid = "ButtonContainer"
@@ -141,6 +140,7 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
 
         val emblem: Image = FontImage.createMaterial(FontImage.MATERIAL_ARROW_RIGHT, UIManager.getInstance().getComponentStyle("DemoMultiIcon"))
         val icon: Image = FontImage.createMaterial(FontImage.MATERIAL_INFO, UIManager.getInstance().getComponentStyle("DemoMultiIcon"))
+
         val oneLineIconEmblem = MultiButton("Icon + Emblem")
         oneLineIconEmblem.uiidLine1 = "DemoMultiButtonHeader"
         oneLineIconEmblem.icon = icon
@@ -251,7 +251,7 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
         val addNew = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD, "RedFabDemo")
         val greenButton = addNew.createSubFAB(FontImage.MATERIAL_ADD_TASK, "")
         greenButton.uiid = "GreenFabDemo"
-        greenButton.addActionListener { e: ActionEvent? ->
+        greenButton.addActionListener {
             val header = TextComponent().labelAndHint("note header: ")
             val body = TextComponent().labelAndHint("note body: ")
             val ok = Command("Ok")
@@ -266,7 +266,7 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
 
         val purpleButton = addNew.createSubFAB(FontImage.MATERIAL_ADD_TASK, "")
         purpleButton.uiid = "PurpleFabDemo"
-        purpleButton.addActionListener { e: ActionEvent? ->
+        purpleButton.addActionListener {
             val header = TextComponent().labelAndHint("note header: ")
             val body = TextComponent().labelAndHint("note body: ")
             val ok = Command("Ok")
@@ -304,7 +304,7 @@ class ButtonsDemo(parentForm: Form?) : Demo() {
         }
 
         val note = SwipeableContainer(deleteButton, noteContainer)
-        deleteButton.addActionListener { e: ActionEvent? ->
+        deleteButton.addActionListener {
             notes.removeComponent(note)
             val taskCount = Integer.valueOf(badge.text) - 1
             badge.text = taskCount.toString()

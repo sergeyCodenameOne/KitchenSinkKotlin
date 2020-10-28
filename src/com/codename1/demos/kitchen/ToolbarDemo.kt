@@ -40,7 +40,8 @@ import com.codename1.ui.util.Resources
  *
  * @author Sergey Gerashenko.
  */
-class ToolbarDemo(parentForm: Form?) : Demo() {
+class ToolbarDemo(parentForm: Form) : Demo() {
+
     override fun createContentPane(): Container? {
         val toolBarForm = Form("Toolbar", BorderLayout())
         toolBarForm.contentPane.uiid = "ComponentDemoContainer"
@@ -110,7 +111,6 @@ class ToolbarDemo(parentForm: Form?) : Demo() {
 
         toolBarForm.add(BorderLayout.SOUTH, backButton)
         toolBarForm.show()
-
         return null
     }
 

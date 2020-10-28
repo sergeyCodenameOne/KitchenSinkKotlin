@@ -25,7 +25,6 @@ package com.codename1.demos.kitchen
 import com.codename1.components.MultiButton
 import com.codename1.components.ToastBar
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.list.GenericListCellRenderer
@@ -39,7 +38,7 @@ import java.util.Calendar
  *
  * @author Sergey Gerashenko.
  */
-class SelectionDemo(parentForm: Form?) : Demo() {
+class SelectionDemo(parentForm: Form) : Demo() {
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "DemoContainer")
         demoContainer.isScrollableY = true
@@ -48,33 +47,33 @@ class SelectionDemo(parentForm: Form?) : Demo() {
                 "Combo Box",
                 "ComboBox is a list that allows only one",
                 "selection at a time, when a user clicks * the code ComboBox a popup button with the full list of elements allows the " +
-                        "selection of * a single element. The ComboBox is a driven by the list model and allows all the rendere * features of the " +
-                        "list as well.") { e: ActionEvent? -> showDemo("Combo Box", createComboBoxDemo()) })
+                        "selection of * a single element. The ComboBox is a driven by the list model and allows all the renderer * features of the " +
+                        "list as well.") { showDemo("Combo Box", createComboBoxDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("date-picker.png"),
                 "Date Picker",
                 "Date Picker is a PickerComponent use",
-                "PickerComponent.createDate(null).label(\"Se- lect Birthday\")") { e: ActionEvent? -> showDemo("Date Picker", createDatePickerDemo()) })
+                "PickerComponent.createDate(null).label(\"Select Birthday\")") { showDemo("Date Picker", createDatePickerDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("time-picker.png"),
                 "Time Picker",
                 "Time Picker is a PickerComponent use",
-                "PickerComponent.createTime(null).label(\"Se- lect Alarm time\")") { e: ActionEvent? -> showDemo("Time Picker", createTimePickerDemo()) })
+                "PickerComponent.createTime(null).label(\"Select Alarm time\")") { showDemo("Time Picker", createTimePickerDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("date-time-picker.png"),
                 "Date Time Picker",
                 "DateTime Picker is a PickerComponent use ",
-                "PickerComponent.createDateTime(null).label (\"Select Meeting schedule\")") { e: ActionEvent? -> showDemo("Date Time Picker", createDateTimePickerDemo()) })
+                "PickerComponent.createDateTime(null).label (\"Select Meeting schedule\")") { showDemo("Date Time Picker", createDateTimePickerDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("minute-picker.png"),
                 "Minute Duration Picker",
                 "Minute Picker is a PickerComponent use",
-                "PickerComponent.createDurationMMInutes (0).label(\"Select Duration\")") { e: ActionEvent? -> showDemo("Minute Duration Picker", createMinuteDurationPickerDemo()) })
+                "PickerComponent.createDurationMinutes (0).label(\"Select Duration\")") { showDemo("Minute Duration Picker", createMinuteDurationPickerDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("hour-picker.png"),
                 "Minute, Hour, Duration Picker",
                 "Hour Minute Picker is a PickerComponent",
-                "use PickerComponent.createDurationHoursMinutes(0,0).label(\"Select Duration\")") { e: ActionEvent? -> showDemo("Minute, Hour, Duration Picker", createMinuteHourPickerDemo()) })
+                "use PickerComponent.createDurationHoursMinutes(0,0).label(\"Select Duration\")") { showDemo("Minute, Hour, Duration Picker", createMinuteHourPickerDemo()) })
 
         return demoContainer
     }
@@ -105,7 +104,7 @@ class SelectionDemo(parentForm: Form?) : Demo() {
         demoContainer.add(BorderLayout.CENTER, BoxLayout.encloseY(combo))
 
         val showRating = Button("Show Rating", "DemoButton")
-        showRating.addActionListener { e: ActionEvent? ->
+        showRating.addActionListener {
             val selectedItem: Map<*, *> = combo.selectedItem
             ToastBar.showInfoMessage(selectedItem["Line1"] as String? + " rating is: " + selectedItem["rating"] as String?)
         }
@@ -119,7 +118,7 @@ class SelectionDemo(parentForm: Form?) : Demo() {
         val datePicker = PickerComponent.createDate(null).label("Select Birthday: ")
         datePicker.uiid = "DemoPicker"
         val save = Button("Save Birthday", "DemoButton")
-        save.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Birthday was saved: " + datePicker.picker.text) }
+        save.addActionListener { ToastBar.showInfoMessage("Birthday was saved: " + datePicker.picker.text) }
         val demoContainer = BorderLayout.center(BoxLayout.encloseY(datePicker))
         demoContainer.add(BorderLayout.SOUTH, save)
         demoContainer.uiid = "Wrapper"
@@ -134,7 +133,7 @@ class SelectionDemo(parentForm: Form?) : Demo() {
         timePicker.uiid = "DemoPicker"
 
         val setAlarm = Button("Set Alarm", "DemoButton")
-        setAlarm.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Alarm set for: " + timePicker.picker.text) }
+        setAlarm.addActionListener { ToastBar.showInfoMessage("Alarm set for: " + timePicker.picker.text) }
 
         val demoContainer = BorderLayout.center(BoxLayout.encloseY(timePicker))
         demoContainer.add(BorderLayout.SOUTH, setAlarm)
@@ -146,7 +145,7 @@ class SelectionDemo(parentForm: Form?) : Demo() {
         val meetingPicker = PickerComponent.createDateTime(null).label("Select meeting schedule")
         meetingPicker.uiid = "DemoPicker"
         val scheduleMeeting = Button("Schedule Meeting", "DemoButton")
-        scheduleMeeting.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Meeting was scheduled at: " + meetingPicker.picker.text) }
+        scheduleMeeting.addActionListener { ToastBar.showInfoMessage("Meeting was scheduled at: " + meetingPicker.picker.text) }
         val demoContainer = BorderLayout.center(BoxLayout.encloseY(meetingPicker))
         demoContainer.add(BorderLayout.SOUTH, scheduleMeeting)
         demoContainer.uiid = "Wrapper"
@@ -157,7 +156,7 @@ class SelectionDemo(parentForm: Form?) : Demo() {
         val durationPicker = PickerComponent.createDurationMinutes(0).label("Select Duration")
         durationPicker.uiid = "DemoPicker"
         val setTimer = Button("Set Timer", "DemoButton")
-        setTimer.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Timer set for: " + durationPicker.picker.text) }
+        setTimer.addActionListener { ToastBar.showInfoMessage("Timer set for: " + durationPicker.picker.text) }
         val demoContainer = BorderLayout.center(BoxLayout.encloseY(durationPicker))
         demoContainer.add(BorderLayout.SOUTH, setTimer)
         demoContainer.uiid = "Wrapper"
@@ -168,7 +167,7 @@ class SelectionDemo(parentForm: Form?) : Demo() {
         val durationPicker = PickerComponent.createDurationHoursMinutes(0, 0).label("Select Duration")
         durationPicker.uiid = "DemoPicker"
         val setTimer = Button("Set Timer", "DemoButton")
-        setTimer.addActionListener { e: ActionEvent? -> ToastBar.showInfoMessage("Timer set for: " + durationPicker.picker.text) }
+        setTimer.addActionListener { ToastBar.showInfoMessage("Timer set for: " + durationPicker.picker.text) }
         val demoContainer = BorderLayout.center(BoxLayout.encloseY(durationPicker))
         demoContainer.add(BorderLayout.SOUTH, setTimer)
         demoContainer.uiid = "Wrapper"

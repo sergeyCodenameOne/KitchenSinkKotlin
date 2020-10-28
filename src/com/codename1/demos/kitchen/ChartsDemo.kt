@@ -24,7 +24,6 @@ package com.codename1.demos.kitchen
 
 import com.codename1.demos.kitchen.charts.*
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.util.Resources
@@ -36,7 +35,7 @@ import com.codename1.ui.util.Resources
  *
  * @author Sergey Gerashenko.
  */
-class ChartsDemo(parentForm: Form?) : Demo() {
+class ChartsDemo(parentForm: Form) : Demo() {
 
     override fun createContentPane(): Container? {
         val demoContainer = Container(BoxLayout(BoxLayout.Y_AXIS), "DemoContainer")
@@ -44,21 +43,21 @@ class ChartsDemo(parentForm: Form?) : Demo() {
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-bar.png"),
                 "Bar Chart",
-                "The bar chart rendering class") { e: ActionEvent? ->
+                "The bar chart rendering class") {
             val chart: AbstractDemoChart = SalesBarChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-bubble.png"),
                 "Bubble Chart",
-                "The bubble chart rendering class") { e: ActionEvent? ->
+                "The bubble chart rendering class") {
             val chart: AbstractDemoChart = ProjectStatusBubbleChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-combined-xy.png"),
                 "CombinedXY Chart",
-                "The combinedXY chart rendering class") { e: ActionEvent? ->
+                "The combinedXY chart rendering class") {
             val chart: AbstractDemoChart = CombinedTemperatureChart()
             showChart(chart)
         })
@@ -66,56 +65,56 @@ class ChartsDemo(parentForm: Form?) : Demo() {
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-cubic-line.png"),
                 "CubicLine Chart",
                 "The interpolated (cubic) line chart rendering",
-                " class") { e: ActionEvent? ->
+                " class") {
             val chart: AbstractDemoChart = AverageCubicTemperatureChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-dial.png"),
                 "Dial Chart",
-                "The dial chart rendering class") { e: ActionEvent? ->
+                "The dial chart rendering class") {
             val chart = WeightDialChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-donut.png"),
                 "Donut Chart",
-                "The donut chart rendering class") { e: ActionEvent? ->
+                "The donut chart rendering class") {
             val chart = BudgetDoughnutChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-line.png"),
                 "Line Chart",
-                "The linechart rendering class") { e: ActionEvent? ->
+                "The lineChart rendering class") {
             val chart = TrigonometricFunctionsChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-pie.png"),
                 "Pie Chart",
-                "The pie chart rendering class") { e: ActionEvent? ->
+                "The pie chart rendering class") {
             val chart = BudgetPieChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-radar.png"),
                 "Radar Chart",
-                "The radar chart rendering class") { e: ActionEvent? ->
+                "The radar chart rendering class") {
             val chart = EmployeeChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-scatter.png"),
                 "Scatter Chart",
-                "The scater chart rendering class") { e: ActionEvent? ->
+                "The scatter chart rendering class") {
             val chart = ScatterChart()
             showChart(chart)
         })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("chart-time.png"),
                 "Time Chart",
-                "The Time chart rendering class") { e: ActionEvent? ->
+                "The Time chart rendering class") {
             val chart = SensorValuesChart()
             showChart(chart)
         })
@@ -130,7 +129,7 @@ class ChartsDemo(parentForm: Form?) : Demo() {
         toolbar.titleComponent.uiid = "ComponentDemoTitle"
         val lastForm = CN.getCurrentForm()
         val backCommand = Command.create("", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, lastForm.uiManager.getComponentStyle("DemoTitleCommand"))
-        ) { e: ActionEvent? -> lastForm.showBack() }
+        ) { lastForm.showBack() }
         toolbar.setBackCommand(backCommand)
         chartForm.add(BorderLayout.CENTER, demo.execute())
         chartForm.contentPane.uiid = "ComponentDemoContainer"

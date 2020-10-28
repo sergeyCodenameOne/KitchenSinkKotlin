@@ -28,7 +28,6 @@ import com.codename1.components.ToastBar
 import com.codename1.googlemaps.MapContainer
 import com.codename1.maps.Coord
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.layouts.FlowLayout
@@ -42,7 +41,7 @@ import java.util.*
  *
  * @author Sergey Gerashenko.
  */
-class MapsDemo(parentForm: Form?) : Demo() {
+class MapsDemo(parentForm: Form) : Demo() {
     // Should be replaced with real api key in order to activate the demo. 
     private val googleMapsHTMLKey: String? = null
     var markerList: MutableList<Coord> = ArrayList()
@@ -52,7 +51,7 @@ class MapsDemo(parentForm: Form?) : Demo() {
 
         demoContainer.add(BorderLayout.NORTH, createComponent(Resources.getGlobalResources().getImage("map-google-component.png"),
                 "Google Map",
-                "Google Map class") { e: ActionEvent? ->
+                "Google Map class") {
             if (googleMapsHTMLKey == null) {
                 showDemo("Google Map", createKeysGuide())
             } else {
@@ -67,7 +66,7 @@ class MapsDemo(parentForm: Form?) : Demo() {
         val map = MapContainer(googleMapsHTMLKey)
         val moveToCurrentLocation = FloatingActionButton.createFAB(FontImage.MATERIAL_GPS_FIXED, "MapsCurrLocation")
 
-        moveToCurrentLocation.addActionListener { e: ActionEvent? ->
+        moveToCurrentLocation.addActionListener {
             val currLocation = Display.getInstance().locationManager.currentLocationSync
             if (currLocation != null) {
                 map.zoom(Coord(currLocation.latitude, currLocation.longitude), (map.maxZoom + map.minZoom) / 2)
@@ -96,13 +95,13 @@ class MapsDemo(parentForm: Form?) : Demo() {
         }
 
         val btnClearAll = Button("Clear All", "MapsButton")
-        btnClearAll.addActionListener { e: ActionEvent? ->
+        btnClearAll.addActionListener {
             map.clearMapLayers()
             markerList.clear()
         }
 
         val btnAddPath = Button("Add Path", "MapsButton")
-        btnAddPath.addActionListener { e: ActionEvent? ->
+        btnAddPath.addActionListener {
             if (markerList.size > 1) {
                 map.addPath(*markerList.toTypedArray())
             } else {
@@ -134,16 +133,16 @@ class MapsDemo(parentForm: Form?) : Demo() {
             "Also you need to replace the \"googleMapsHTMLKey\" attribute in the source code.", "DemoLabel"))
 
         val javascriptButton = Button("Generate Javascript key", "DemoButton")
-        javascriptButton.addActionListener { e: ActionEvent? -> CN.execute("https://developers.google.com/maps/documentation/javascript/overview") }
+        javascriptButton.addActionListener { CN.execute("https://developers.google.com/maps/documentation/javascript/overview") }
 
         val iosButton = Button("Generate IOS Key", "DemoButton")
-        iosButton.addActionListener { e: ActionEvent? -> CN.execute("https://developers.google.com/maps/documentation/ios-sdk/start") }
+        iosButton.addActionListener { CN.execute("https://developers.google.com/maps/documentation/ios-sdk/start") }
 
         val androidButton = Button("Generate Android Key", "DemoButton")
-        androidButton.addActionListener { e: ActionEvent? -> CN.execute("https://developers.google.com/maps/documentation/android-sdk/start") }
+        androidButton.addActionListener { CN.execute("https://developers.google.com/maps/documentation/android-sdk/start") }
 
         val infoButton = Button("For More Information", "DemoButton")
-        infoButton.addActionListener { e: ActionEvent? -> CN.execute("https://www.codenameone.com/blog/new-improved-native-google-maps.html") }
+        infoButton.addActionListener { CN.execute("https://www.codenameone.com/blog/new-improved-native-google-maps.html") }
         keysGuideContainer.addAll(javascriptButton, iosButton, androidButton, infoButton)
         keysGuideContainer.uiid = "Wrapper"
 

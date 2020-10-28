@@ -26,7 +26,6 @@ import com.codename1.components.*
 import com.codename1.contacts.Contact
 import com.codename1.contacts.ContactsManager
 import com.codename1.ui.*
-import com.codename1.ui.events.ActionEvent
 import com.codename1.ui.layouts.BorderLayout
 import com.codename1.ui.layouts.BoxLayout
 import com.codename1.ui.layouts.FlowLayout
@@ -39,7 +38,7 @@ import java.util.*
  *
  * @author Sergey Gerashenko.
  */
-class DialogDemo(parentForm: Form?) : Demo() {
+class DialogDemo(parentForm: Form) : Demo() {
     private var isInteractionDialogOpen = false
     private var roundMaskImage: Image? = null
     private val statusList: MutableList<ToastBar.Status> = ArrayList()
@@ -54,7 +53,7 @@ class DialogDemo(parentForm: Form?) : Demo() {
                 "dialog only looks like a dialog, it resides in the layered pane and can be used to implement features " +
                         "where interaction with the background form is still required. Since this code is designed for interaction " +
                         "all \"dialogs\" created through there are modeless and never block."
-                ) { e: ActionEvent? -> showDemo("Interaction Dialog", createInteractionDialogDemo()) })
+                ) { showDemo("Interaction Dialog", createInteractionDialogDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("dialog.png"),
                 "Dialog",
@@ -65,7 +64,7 @@ class DialogDemo(parentForm: Form?) : Demo() {
                     "To determine the size of the dialog use the show method that accepts 4 integer values, notice that these values accept margin from the four sides than x,y, width and height values!" +
                     "It's important to style a Dialog using getDialogStyle() or setDialogUIID(java.lang. String) methods rather than styling the dialog object directly." +
                     "The Dialog class also includes support for popup dialog which is a dialog type that is positioned text to a component or screen area and points an arrow at the location."
-                ) { e: ActionEvent? -> showDemo("Dialog", createDialogDemo()) })
+                ) { showDemo("Dialog", createDialogDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("sheet.png"),
                 "Sheet",
@@ -76,7 +75,7 @@ class DialogDemo(parentForm: Form?) : Demo() {
                 "which can be retrieved via getContentPane()\n\nUsage:\nThe general usage is to create new sheet instance "+
                 "(or subclass), then call show() to make it appear over the current form. If a different sheet that is "+
                 "currently being displayed, then calling show() will replace it."
-                ) { e: ActionEvent? -> showDemo("Sheet", createSheetDemo()) })
+                ) { showDemo("Sheet", createSheetDemo()) })
 
         demoContainer.add(createComponent(Resources.getGlobalResources().getImage("toast-bar.png"),
                 "ToastBar",
@@ -84,7 +83,7 @@ class DialogDemo(parentForm: Form?) : Demo() {
                 "user in an unobtrusive manner. This is useful if there are background tasks that need to display " +
                 "information to the user. E.g.p If a network request fails, of let the user know that \"Jobs are being " +
                 "synchronized\""
-                ) { e: ActionEvent? -> showDemo("ToastBar", createToastBarDemo()) })
+                ) { showDemo("ToastBar", createToastBarDemo()) })
 
         return demoContainer
     }
@@ -93,7 +92,7 @@ class DialogDemo(parentForm: Form?) : Demo() {
         val dlg = InteractionDialog("Header", BorderLayout())
         dlg.add(BorderLayout.CENTER, SpanLabel("Dialog body", "DialogDemoSpanLabel"))
         val openClose = Button("Open/Close", "DialogDemoButton")
-        openClose.addActionListener { ee: ActionEvent? ->
+        openClose.addActionListener {
             if (isInteractionDialogOpen) {
                 dlg.dispose()
             } else {
@@ -107,14 +106,14 @@ class DialogDemo(parentForm: Form?) : Demo() {
     private fun createDialogDemo(): Container {
         val showDialog = Button("Show Dialog", "DialogDemoButton")
         val showPopup = Button("Show Popup", "DialogDemoButton")
-        showDialog.addActionListener { e: ActionEvent? ->
+        showDialog.addActionListener {
             val ok = Command("Ok")
             val cancel = Command("Cancel")
             val body = SpanLabel("This is the body of the popup", "DialogDemoSpanLabel")
             val commands = arrayOf(ok, cancel)
             Dialog.show("Dialog Title", body, commands, Dialog.TYPE_INFO, null, 0)
         }
-        showPopup.addActionListener { e: ActionEvent? ->
+        showPopup.addActionListener {
             val d = Dialog("Popup Title")
             val body = SpanLabel("This is the body of the popup", "DialogDemoSpanLabel")
             d.add(body)
@@ -164,32 +163,32 @@ class DialogDemo(parentForm: Form?) : Demo() {
         val expires = Button("Expires (after 3 seconds)", "DialogDemoButton")
         val delayed = Button("Delayed (by 1 second)", "DialogDemoButton")
         val clear = Button("Clear All", "DialogDemoButton")
-        clear.addActionListener { e: ActionEvent? ->
+        clear.addActionListener {
             for (currStatus in statusList) {
                 currStatus.clear()
             }
             statusList.clear()
         }
-        basic.addActionListener { e: ActionEvent? ->
+        basic.addActionListener {
             val status = ToastBar.getInstance().createStatus()
             status.message = "Hello world"
             statusList.add(status)
             status.show()
         }
-        progress.addActionListener { e: ActionEvent? ->
+        progress.addActionListener {
             val status = ToastBar.getInstance().createStatus()
             status.message = "Hello world"
             status.isShowProgressIndicator = true
             statusList.add(status)
             status.show()
         }
-        expires.addActionListener { e: ActionEvent? ->
+        expires.addActionListener {
             val status = ToastBar.getInstance().createStatus()
             status.message = "Hello world"
             status.setExpires(3000) // only show the status for 3 seconds, then have it automatically clear
             status.show()
         }
-        delayed.addActionListener { e: ActionEvent? ->
+        delayed.addActionListener {
             val status = ToastBar.getInstance().createStatus()
             status.message = "Hello world"
             statusList.add(status)
@@ -209,7 +208,7 @@ class DialogDemo(parentForm: Form?) : Demo() {
         contactImage = contactImage!!.fill(CN.convertToPixels(8f), CN.convertToPixels(8f))
         contactImage = contactImage.applyMask(getRoundMask(contactImage.height))
         contactComponent.icon = contactImage
-        contactComponent.addActionListener { e: ActionEvent? ->
+        contactComponent.addActionListener {
             val contactInfo = Sheet(null, contact.displayName)
             contactInfo.layout = BoxLayout(BoxLayout.Y_AXIS)
             contactInfo.add(Label("Phone: " + contact.primaryPhoneNumber, "ContactDetails"))
@@ -220,13 +219,13 @@ class DialogDemo(parentForm: Form?) : Demo() {
                 contactInfo.add(Label("Birthday: " + contact.birthday, "ContactDetails"))
             }
             val call = Button(FontImage.MATERIAL_CALL, 6f, "ContactsGreenButton")
-            call.addActionListener { ev: ActionEvent? -> CN.dial(contact.primaryPhoneNumber) }
+            call.addActionListener { CN.dial(contact.primaryPhoneNumber) }
             val share = ShareButton()
             share.uiid = "ContactsGreenButton"
             share.setMaterialIcon(FontImage.MATERIAL_SHARE, 6f) // Change the size of the icon.
             share.textToShare = contact.displayName + " phone: " + contact.primaryPhoneNumber
             val delete = Button(FontImage.MATERIAL_DELETE, 6f, "ContactsRedButton")
-            delete.addActionListener { ev: ActionEvent? ->
+            delete.addActionListener {
                 if (Dialog.show("Delete", "This will delete the contact permanently!\nAre you sure?", "Delete", "Cancel")) {
                     if (contact.id != null) {
                         ContactsManager.deleteContact(contact.id)
@@ -248,7 +247,7 @@ class DialogDemo(parentForm: Form?) : Demo() {
                 "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/DialogDemo.java")
     }
 
-    private fun getRoundMask(width: Int): Any? {
+    private fun getRoundMask(width: Int): Any {
         if (roundMaskImage == null) {
             roundMaskImage = Image.createImage(width, width, -0x1000000)
             val gr: Graphics? = roundMaskImage?.graphics
@@ -258,6 +257,6 @@ class DialogDemo(parentForm: Form?) : Demo() {
         } else {
             roundMaskImage = roundMaskImage?.fill(width, width)
         }
-        return roundMaskImage?.createMask()
+        return roundMaskImage!!.createMask()
     }
 }
